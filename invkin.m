@@ -1,4 +1,4 @@
-%function [th1, th2, th3, th4] = invkin()
+%function [th1, th2, th3, th4, th5, th6] = invkin()
 % prompt = "Input TCP's position in vector form: "
 % p40 = input(prompt)
 % 
@@ -89,7 +89,7 @@ th2 = atan(t2)
 
 th4 = 0;
 th5 = 0;
-th6 = 0;
+th3 = 0;
 
 k = 1
 for i = th3
@@ -109,75 +109,15 @@ for i = th3
 
         th6_1 = atan(-R63(2,2)/R63(2,1));
         th6_2 = th6_1 + pi;
-        th6 = [th6 th6_1 th6_2];
-        k = k+1
+        th3 = [th3 th6_1 th6_2];
+        k = k+1;
     end
 end
 
+th1 = 180/pi * th1(1,2:17)
+th2 = 180/pi * th2(1,2:17)
+th3 = 180/pi * th3(1,2:17)
 th4 = 180/pi * th4(1,2:17)
 th5 = 180/pi * th5(1,2:17)
 th6 = 180/pi * th6(1,2:17)
-
-R30 = calcr30(th3(1), th1(1), th2(1));
-R63 = R30'*R60;
-
-th4_1 = atan(R63(3,3)/R63(1,3));
-th4_2 = th4_1 + pi;
-
-cos_5 = R63(2,3);
-sin_5 = sqrt(1-cos_5^2);
-th5_1 = atan(sin_5/cos_5);
-th5_2 = th5_1 + pi;
-
-th6_1 = atan(-R63(2,2)/R63(2,1));
-th6_2 = th6_1 + pi;
-
-R30 = calcr30(th3(1), th1(2), th2(2));
-R63 = R30'*R60;
-
-th4_3 = atan(R63(3,3)/R63(1,3));
-th4_4 = th4_3 + pi;
-
-cos_5 = R63(2,3);
-sin_5 = sqrt(1-cos_5^2);
-th5_3 = atan(sin_5/cos_5);
-th5_4 = th5_3 + pi;
-
-th6_3 = atan(-R63(2,2)/R63(2,1));
-th6_4 = th6_3 + pi;
-
-R30 = calcr30(th3(2), th1(1), th2(3));
-R63 = R30'*R60;
-
-th4_5 = atan(R63(3,3)/R63(1,3));
-th4_6 = th4_5 + pi;
-
-cos_5 = R63(2,3);
-sin_5 = sqrt(1-cos_5^2);
-th5_5 = atan(sin_5/cos_5);
-th5_6 = th5_5 + pi;
-
-th6_5 = atan(-R63(2,2)/R63(2,1));
-th6_6 = th6_5 + pi;
-
-R30 = calcr30(th3(2), th1(2), th2(4));
-R63 = R30'*R60;
-
-th4_7 = atan(R63(3,3)/R63(1,3));
-th4_8 = th4_7 + pi;
-
-cos_5 = R63(2,3);
-sin_5 = sqrt(1-cos_5^2);
-th5_7 = atan(sin_5/cos_5);
-th5_8 = th5_7 + pi;
-
-th6_7 = atan(-R63(2,2)/R63(2,1));
-th6_8 = th6_7 + pi;
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-th4 = 180/pi * [th4_1 th4_2 th4_3 th4_4 th4_5 th4_6 th4_7 th4_8]
-th5 = 180/pi * [th5_1 th5_2 th5_3 th5_4 th5_5 th5_6 th5_7 th5_8]
-th6 = 180/pi * [th6_1 th6_2 th6_3 th6_4 th6_5 th6_6 th6_7 th6_8]
 %end
