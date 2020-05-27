@@ -1,20 +1,33 @@
-function [] = forkin();
+function [Mt] = forkin(x, tool)
     %input: a_i-1, l_i-1, d_i, th_i
-    % output: dh_par, M10, M21, M32, M43, M54, M65
+    % output: pinakes metasximatismou Mi_i-1
+    a6 = 0;
+    l6 = 0;
+    tlength = 0.205;
+    d7 = tlength + 0.095; % 0.095 mikos provoskidas
 
-    a = pi/180 * [0 90 0 90 -90 90];    % link twist vector
-    l = [0 0.150 0.590 0.130 0 0];      % link length vector
-    d = [0.450 0 0 0.64707 0 0];        % link offset vector
+    a = pi/180 * [0 90 0 90 -90 90 a6];    % link twist vector
+    l = [0 0.150 0.590 0.130 0 0 l6];      % link length vector
+    d = [0.450 0 0 0.64707 0 0 d7];        % link offset vector
+    
+    if nargin == 0
+        prompt = 'Input joint angles in vector form: '
+        x = deg2rad(input(prompt));   % joint angle vector
+        th = x;
+    elseif nargin == 2
+        if tool == false
+            th = deg2rad(x);
+        elseif tool == true
+            th = deg2rad([x 0]); % den yparxei sxetiki peristrofi metaxi {6} k {7}
+        end
+    else
+        disp('ERROR: 2 OR NONE INPUT ARGUMENTS MUST BE GIVEN')
+        return;
+    end
+    
+    index = 1:size(th,2);
 
-    prompt = 'Input joint angles in vector form: '
-
-    th = pi/180 * input(prompt);        % joint angle vector
-    index = 1:6;
-
-    %dh_par = [index' a' l' d' th'];
-
-    m = 1;
-    M_tot = zeros(4,16);    % All matrices will be stored here
+    Mt = eye(4);
     for i = index  
         M = [cos(th(i)) -sin(th(i)) 0 l(i);
             sin(th(i))*cos(a(i)) cos(th(i))*cos(a(i)) ...
@@ -22,27 +35,17 @@ function [] = forkin();
             sin(th(i))*sin(a(i)) cos(th(i))*sin(a(i)) cos(a(i)) ...
             cos(a(i))*d(i);
             0 0 0 1];
-
-        M_tot(1:4,m:m+3) = M;
-        m = m+4;
+        
+        Mt = Mt*M;
     end
-
-    M10 = M_tot(:,1:4);      % 1 to 0 transformation
-    M21 = M_tot(:,5:8);      % 2 to 1    >>
-    M32 = M_tot(:,9:12);     % 3 to 2    >>
-    M43 = M_tot(:,13:16);    % 4 to 3    >>
-    M54 = M_tot(:,17:20);    % 5 to 4    >>
-    M65 = M_tot(:,21:24);    % 6 to 5    >>
-
-    M60 = M65*M54*M43*M32*M21*M10;  % tip to base transformation matrix
     
-    disp('TCP in meters')
-    p = M60(1:3,4)  % Position of arm's tip in meters
+    %disp('TCP in meters')
+    p = Mt(1:3,4);  % Position of arm's tip in meters
 
     % Euler ZYX angles are used to describe tip's orientation
     % all angles are displayed in radians
-    disp('Euler ZYX angles')
-    fz = atan(M60(2,1)/M60(1,1))    % Euler Z angle 
-    fy = atan(-M60(3,1)/sqrt((M60(1,1)^2 + M60(2,1)^2))) % Euler Y angle
-    fx_ = atan(M60(2,3)/M60(3,3))   % Euler X angle
+    %disp('Euler ZYX angles')
+    fz = atan(Mt(2,1)/Mt(1,1));    % Euler Z angle 
+    fy = atan(-Mt(3,1)/sqrt((Mt(1,1)^2 + Mt(2,1)^2))); % Euler Y angle
+    fx = atan(Mt(2,3)/Mt(3,3));   % Euler X angle
 end

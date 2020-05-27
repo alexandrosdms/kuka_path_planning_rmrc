@@ -1,30 +1,76 @@
-function sol_tot = invkin()
-    prompt = "Input TCP (in meters) in vector form [px py pz]: "
-    p40_0 = input(prompt)
+function [sol] = invkin(x,y,tool)
+    if nargin == 0
+        prompt = "Input TCP (in meters) in vector form [px py pz]: "
+        p40_0 = input(prompt);
 
-    prompt = "Input EulerZYX [fz fy fx]: "
-    angles = pi/180 * input(prompt)
-%     clc
-%     clear all
-%     p40_0 = [0.1 0.1 0.05];       %testing values
-%     angles = pi/180 * [39 52 78]; %testing values
+        prompt = "Input EulerZYX [fz fy fx]: "
+        angles = pi/180 * input(prompt);
+        %     clc
+        %     clear all
+        %     p40_0 = [0.1 0.1 0.05];       %testing values
+        %     angles = pi/180 * [39 52 78]; %testing values
+        fi = angles(1);
+        theta = angles(2);
+        psi_ = angles(3);
+
+        R60 = R_ZYX(fi,theta,psi_);
+
+        p1 = p40_0(1);
+        p2 = p40_0(2);
+        p3 = p40_0(3);
+    elseif nargin == 3
+        if tool == true
+            % to sistima to ergaleiou {7} peristrefetai mazi me to sistima
+            % tou akrou ergasias {6}
+            % ara ta dio sistimata einai apla metatopismena metaxi tous
+            
+            % prosdiorismos {7} os pros {6}
+            a6 = 0;
+            l6 = 0;
+            tlength = 0.205;
+            d7 = tlength + 0.095; % 0.095 mikos provoskidas
+            th7 = 0;
+            tangle = 80;
+
+            M76 = [cos(th7) -sin(th7) 0 l6;
+            sin(th7)*cos(a6) cos(th7)*cos(a6) ...
+            -sin(a6) -sin(a6)*d7;
+            sin(th7)*sin(a6) cos(th7)*sin(a6) cos(a6) ...
+            cos(a6)*d7;
+            0 0 0 1];
+            
+            % prosdiorismos prosanatolismou sistimatos ergaleiou {7}
+            % os pros to sistima stoxos {P}
+            M7P = [R_ZYX(0,-tangle-90,0) zeros(3,1);
+                0 0 0 1];
+            
+            % prosdiorismos tou sistimatos {6} gia thn prosegisi tou {P}
+            % apo to {7}
+            M6P = M7P*inv(M76);
+            % prosdiorismos thesis akr. erg. os pros vasi
+            MP0 = [R_ZYX(y) x;0 0 0 1];
+            M70 = MP0*M7P;
+            M60 = MP0*M6P; 
+
+            R60 = M60(1:3, 1:3);
+            p1 = M60(1,4);
+            p2 = M60(2,4);
+            p3 = M60(3,4);
+        elseif tool == false
+            p40_0 = x;
+            angles = y;
+            fi = angles(1);
+            theta = angles(2);
+            psi_ = angles(3);
+
+            R60 = R_ZYX(fi,theta,psi_);
+
+            p1 = p40_0(1);
+            p2 = p40_0(2);
+            p3 = p40_0(3);
+        end
+    end
     
-    fi = angles(1);
-    theta = angles(2);
-    psi_ = angles(3);
-
-    R_ZYX = [cos(fi)*cos(theta)...
-        (cos(fi)*sin(theta)*sin(psi_))-(sin(fi)*cos(psi_)) ...
-        (cos(fi)*sin(theta)*cos(psi_))+(sin(fi)*sin(psi_));
-        sin(fi)*cos(theta) ...
-        (sin(fi)*sin(theta)*sin(psi_))+(cos(fi)*cos(psi_)) ...
-        (sin(fi)*sin(theta)*cos(psi_))-(cos(fi)*sin(psi_));
-        -sin(theta) cos(theta)*sin(psi_) cos(theta)*cos(psi_)];
-    R60 = R_ZYX;
-
-    p1 = p40_0(1);
-    p2 = p40_0(2);
-    p3 = p40_0(3);
     %th1
     th1 = [atan(p2/p1) atan(p2/p1) + pi];
     %th3
@@ -103,14 +149,11 @@ function sol_tot = invkin()
     th4 = 180/pi * th4(1,2:17);
     th5 = 180/pi * th5(1,2:17);
     th6 = 180/pi * th6(1,2:17);
-
+    
     k = 1;
     int = 0;
     r = 1;
-    sol_tot = [sym('i') sym('th1') sym('th2') sym('th3') sym('th4') ...
-        sym('th5') sym('th6')];
-    
-    disp('Joint angles')
+    sol_tot = [];
     for i =  th3
         if k<8
             for j = th1
@@ -119,14 +162,10 @@ function sol_tot = invkin()
                     for m = k+1:k+2
                         for l = k+1:k+2
                             for p = k+1:k+2
-                                sol = [sym(num2str(i)) ...
-                                    sym(num2str(th2(k+1))) ...
-                                    sym(num2str(j)) ...
-                                    sym(num2str(th4(m))) ...
-                                    sym(num2str(th5(l))) ...
-                                    sym(num2str(th6(p)))];
+                                sol = [i th2(k+1) j th4(m) th5(l) th6(p)];
+                                s = sum(abs([i th2(k+1) j th4(m) th5(l) th6(p)]));
                                 int = int + 1;
-                                sol_tot = [sol_tot; sym(num2str(int)) sol];
+                                sol_tot = [sol_tot; int sol s];
                             end
                         end
                     end
@@ -134,14 +173,10 @@ function sol_tot = invkin()
                     for m = k+1:k+2
                         for l = k+1:k+2
                             for p = k+1:k+2
-                                sol = [sym(num2str(i)) ...
-                                    sym(num2str(th2(k+1))) ...
-                                    sym(num2str(j)) ...
-                                    sym(num2str(th4(m))) ...
-                                    sym(num2str(th5(l))) ...
-                                    sym(num2str(th6(p)))];
+                                sol = [i th2(k+1) j th4(m) th5(l) th6(p)];
+                                s = sum(abs([i th2(k+1) j th4(m) th5(l) th6(p)]));
                                 int = int + 1;
-                                sol_tot = [sol_tot; sym(num2str(int)) sol];
+                                sol_tot = [sol_tot; int sol s];
                             end
                         end
                     end
@@ -151,7 +186,7 @@ function sol_tot = invkin()
             end
         end
     end
-
-    int = int; % must be 64
-    disp('Joint angles')
+    sums = sol_tot(:,8);
+    [M, I] = min(sums);
+    sol = sol_tot(I,2:7);
 end
