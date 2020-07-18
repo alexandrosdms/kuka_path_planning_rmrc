@@ -1,192 +1,89 @@
-function [sol] = invkin(x,y,tool)
-    if nargin == 0
-        prompt = "Input TCP (in meters) in vector form [px py pz]: "
-        p40_0 = input(prompt);
+function [theta1,theta2,theta3,theta4,theta5,theta6] = invkin(Px,Py,Pz,fz,fy,fx)
+        theta4 = 0;
+        theta5 = 0;
+        theta6 = 0;
+        sign1 = 1;
+        sign3 = 1;
+        nogo = 0;
+        noplot = 0;
+        % Because the sqrt term in theta3 can be + or - we run through
+        % all possible combinations (i = 2) and take the first combination that
+        % satisfies the joint angle constraints.
+%         while nogo == 0;
+%             for i = 1:1:4
+%                 if i == 1
+%                     sign1 = 1;
+%                     sign3 = 1;
+%                 elseif i == 2
+%                     sign1 = 1;
+%                     sign3 = -1;
+%                 elseif i == 3
+%                     sign1 = -1;
+%                     sign3 = 1;
+%                 else
+%                     sign1 = -1;
+%                     sign3 = -1;
+%                 end
+                a1 = 150;
+                a2 = 590;
+                a3 = 130;
+                d4 = 647.07;
+                rho = sqrt(Px^2+Py^2);
+                phi = atan2(Py,Px);
+                theta1 = atan2(Py,Px);
+                c1 = cos(theta1);
+                s1 = sin(theta1);
+                K = (Px^2+Py^2+Pz^2+a1^2-(2*Px*a1)/c1-a2^2-a3^2-d4^2)/(2*a2);
+                theta3 = (atan2(a3,d4)-atan2(K,sign3*sqrt(a3^2+d4^2-K^2)));
+                c3 = cos(theta3);
+                s3 = sin(theta3);
+                t23 = atan2((-a3-a2*c3)*Pz-(c1*Px+s1*Py-a1)*(d4-a2*s3),(a2*s3-d4)*Pz+(a3+a2*c3)*(c1*Px+s1*Py-a1));
+                theta2 = (t23 - theta3);
+                c2 = cos(theta2);
+                s2 = sin(theta2);
 
-        prompt = "Input EulerZYX [fz fy fx]: "
-        angles = pi/180 * input(prompt);
-        %     clc
-        %     clear all
-        %     p40_0 = [0.1 0.1 0.05];       %testing values
-        %     angles = pi/180 * [39 52 78]; %testing values
-        fi = angles(1);
-        theta = angles(2);
-        psi_ = angles(3);
+                R = eul2rotm([fz fy fx]);
+                s23 = ((-a3-a2*c3)*Pz+(c1*Px+s1*Py-a1)*(a2*s3-d4))/(Pz^2+(c1*Px+s1*Py-a1)^2);
+                c23 = ((a2*s3-d4)*Pz+(a3+a2*c3)*(c1*Px+s1*Py-a1))/(Pz^2+(c1*Px+s1*Py-a1)^2);
+                
+                r13 = R(1,3);
+                r23 = R(2,3);
+                r33 = R(3,3);
+                theta4 = atan2(-r13*s1+r23*c1,-r13*c1*c23-r23*s1*c23+r33*s23);
 
-        R60 = R_ZYX(fi,theta,psi_);
+                c4 = cos(theta4);
+                s4 = sin(theta4);
+                r11 = R(1,1);
+                r21 = R(2,1);
+                r31 = R(3,1);
+                s5 = -(r13*(c1*c23*c4+s1*s4)+r23*(s1*c23*c4-c1*s4)-r33*(s23*c4));
+                c5 = r13*(-c1*s23)+r23*(-s1*s23)+r33*(-c23);
+                theta5 = atan2(s5,c5);
 
-        p1 = p40_0(1);
-        p2 = p40_0(2);
-        p3 = p40_0(3);
-    elseif nargin == 3
-        if tool == true
-            % to sistima to ergaleiou {7} peristrefetai mazi me to sistima
-            % tou akrou ergasias {6}
-            % ara ta dio sistimata einai apla metatopismena metaxi tous
-            
-            % prosdiorismos {7} os pros {6}
-            a6 = 0;
-            l6 = 0;
-            tlength = 0.205;
-            d7 = tlength + 0.095; % 0.095 mikos provoskidas
-            th7 = 0;
-            tangle = 80;
+                s6 = -r11*(c1*c23*s4-s1*c4)-r21*(s1*c23*s4+c1*c4)+r31*(s23*s4);
+                c6 = r11*((c1*c23*c4+s1*s4)*c5-c1*s23*s5)+r21*((s1*c23*c4-c1*s4)*c5-s1*s23*s5)-r31*(s23*c4*c5+c23*s5);
+                theta6 = atan2(s6,c6);
 
-            M76 = [cos(th7) -sin(th7) 0 l6;
-            sin(th7)*cos(a6) cos(th7)*cos(a6) ...
-            -sin(a6) -sin(a6)*d7;
-            sin(th7)*sin(a6) cos(th7)*sin(a6) cos(a6) ...
-            cos(a6)*d7;
-            0 0 0 1];
-            
-            % prosdiorismos prosanatolismou sistimatos ergaleiou {7}
-            % os pros to sistima stoxos {P}
-            M7P = [R_ZYX(0,-tangle-90,0) zeros(3,1);
-                0 0 0 1];
-            
-            % prosdiorismos tou sistimatos {6} gia thn prosegisi tou {P}
-            % apo to {7}
-            M6P = M7P*inv(M76);
-            % prosdiorismos thesis akr. erg. os pros vasi
-            MP0 = [R_ZYX(y) x;0 0 0 1];
-            M70 = MP0*M7P;
-            M60 = MP0*M6P; 
-
-            R60 = M60(1:3, 1:3);
-            p1 = M60(1,4);
-            p2 = M60(2,4);
-            p3 = M60(3,4);
-        elseif tool == false
-            p40_0 = x;
-            angles = y;
-            fi = angles(1);
-            theta = angles(2);
-            psi_ = angles(3);
-
-            R60 = R_ZYX(fi,theta,psi_);
-
-            p1 = p40_0(1);
-            p2 = p40_0(2);
-            p3 = p40_0(3);
-        end
-    end
-    
-    %th1
-    th1 = [atan(p2/p1) atan(p2/p1) + pi];
-    %th3
-    A = -1 - 6.519*((p1./cos(th1) - 0.15).^2 + (p3 - 0.45).^2 - 0.7837);
-    B = 9.954;
-    C = 1 - 6.519*((p1./cos(th1) - 0.15).^2 + (p3 - 0.45).^2 - 0.7837);
-
-    P = [A(1) B C(1)];
-    th3_1 = roots(P);
-
-    P = [A(2) B C(2)];
-    th3_2 = roots(P);
-
-    th3 = [th3_1' th3_2'];
-
-    %th2
-    syms x y
-    a11 = 0.59 + 0.13*cos(th3) + 0.64707*sin(th3);
-    a12 = 0.13*sin(th3) - 0.64707*cos(th3);
-    a21 = 0.64707*cos(th3) - 0.13*sin(th3);
-    a22 = 0.59 + 0.13*cos(th3) + 0.64707*sin(th3);
-
-    b1 = p3 - 0.45;
-    b2 = p1./cos(th1) - 0.15;
-
-    s2_0 = [];
-    c2_0 = [];
-    for i = 1:4
-        for j = 1:2
-            eq1 = a11(i)*x + a12(i)*y == b1;
-            eq2 = a21(i)*x + a22(i)*y == b2(j);
-
-            sol = solve([eq1 eq2], [x y]);
-            s2 = sol.x;
-            s2_0 = [s2_0 s2];
-            c2 = sol.y;
-            c2_0 = [c2_0 c2];
-        end
-    end
-
-    s2 = double(s2_0);
-    c2 = double(c2_0);
-    t2 = s2./c2;
-    th2 = atan(t2);
-
-    th4 = 0;
-    th5 = 0;
-    th6 = 0;
-
-    k = 1;
-    for i = th3
-        for j = th1
-            R30 = calcr30(i, j, th2(k));
-            R63 = R30'*R60;
-
-            th4_1 = atan(R63(3,3)/R63(1,3));
-            th4_2 = th4_1 + pi;
-            th4 = [th4 th4_1  th4_2];
-
-            cos_5 = R63(2,3);
-            sin_5 = sqrt(1-cos_5^2);
-            th5_1 = atan(sin_5/cos_5);
-            th5_2 = th5_1 + pi;
-            th5 = [th5 th5_1 th5_2];
-
-            th6_1 = atan(-R63(2,2)/R63(2,1));
-            th6_2 = th6_1 + pi;
-            th6 = [th6 th6_1 th6_2];
-            k = k+1;
-        end
-    end
-
-    th1 = 180/pi * th1;
-    th2 = 180/pi * th2;
-    th3 = 180/pi * th3;
-    th4 = 180/pi * th4(1,2:17);
-    th5 = 180/pi * th5(1,2:17);
-    th6 = 180/pi * th6(1,2:17);
-    
-    k = 1;
-    int = 0;
-    r = 1;
-    sol_tot = [];
-    for i =  th3
-        if k<8
-            for j = th1
-                if r == 1
-                    k = 0;
-                    for m = k+1:k+2
-                        for l = k+1:k+2
-                            for p = k+1:k+2
-                                sol = [i th2(k+1) j th4(m) th5(l) th6(p)];
-                                s = sum(abs([i th2(k+1) j th4(m) th5(l) th6(p)]));
-                                int = int + 1;
-                                sol_tot = [sol_tot; int sol s];
-                            end
-                        end
-                    end
-                else
-                    for m = k+1:k+2
-                        for l = k+1:k+2
-                            for p = k+1:k+2
-                                sol = [i th2(k+1) j th4(m) th5(l) th6(p)];
-                                s = sum(abs([i th2(k+1) j th4(m) th5(l) th6(p)]));
-                                int = int + 1;
-                                sol_tot = [sol_tot; int sol s];
-                            end
-                        end
-                    end
-                end
-                r = r+1;
-                k = k+1;
-            end
-        end
-    end
-    sums = sol_tot(:,8);
-    [M, I] = min(sums);
-    sol = sol_tot(I,2:7);
-end
+                theta1 = theta1*180/pi;
+                theta2 = theta2*180/pi;
+                theta3 = theta3*180/pi;
+                theta4 = theta4*180/pi;
+                theta5 = theta5*180/pi;
+                theta6 = theta6*180/pi;
+%                 if theta2>=360-115 && theta2<=360-35
+%                     theta2 = 360-theta2;
+%                 end
+%                 if theta1<=180 && theta1>=-180 && (theta2<=-115 && theta2>=-115) && theta3<=-20 && theta3>=180 && theta4<=210 && theta4>=-210 && theta5<=130 && theta5>=-130 && theta6<=2700 && theta6>=-2700
+%                     nogo = 1;
+%                     break
+%                 end
+%                 if i == 4 && nogo == 0
+%                     h = errordlg('Point unreachable due to joint angle constraints.','JOINT ERROR');
+%                     waitfor(h);
+%                     nogo = 1;
+%                     noplot = 1;
+%                     break
+%                 end
+%             end
+%          end
+     end
