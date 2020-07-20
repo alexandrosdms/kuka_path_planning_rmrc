@@ -4,8 +4,8 @@ function [jv] = jacob(x)
     end
     
     a = [0 -pi/2 0 -pi/2 pi/2 -pi/2];       % link twist vector
-    l = [0 150 590 130 0 0];                % link length vector
-    d = [0 0 0 647.07 0 0];
+    l = [0 160 780 150 0 0];                % link length vector
+    d = [0 0 0 655 0 0];
     th = deg2rad(x);
     
     Mt = eye(4);
@@ -23,7 +23,7 @@ function [jv] = jacob(x)
     %----------------Apo robotics toolbox-------------------------%
     M76 = eul2tform([-pi -pi/2 0]);
     %-------------------------------------------------------------%
-    M76(1:3,4) = [125 0 -(250+95)]';
+    M76(1:3,4) = [125 0 -(250+153)]';
     
     M70 = M60*M76;
     P7 = M70(1:3,4);

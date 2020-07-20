@@ -1,8 +1,8 @@
 function M60 = forkin(x)
 
     a = [0 -pi/2 0 -pi/2 pi/2 -pi/2];       % link twist vector
-    l = [0 150 590 130 0 0];                % link length vector
-    d = [0 0 0 647.07 0 0];                 % link offset vector
+    l = [0 160 780 150 0 0];                % link length vector
+    d = [0 0 0 655 0 0];                 % link offset vector
 
     th = deg2rad(x);
 

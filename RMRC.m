@@ -17,7 +17,7 @@ MAT = eul2tform([0 0 0]);   % prosanatolismos ergaleiou os pros a kata ti sig.
 MBT = eul2tform([0 0 0]);
 
 MT6 = eul2tform([-pi -pi/2 0]); % prosanatolismos ergaleiou os pros 6
-MT6(1:3,4) = [125 0 -(250+95)]';  % thesi syst. ergaleiou os pros 6
+MT6(1:3,4) = [125 0 -(250+153)]';  % thesi syst. ergaleiou os pros 6
 
 % euresi simeiou 6 otan to ergaleiou vrisketai stin ekkinisi A kai
 % termatismo B
@@ -93,7 +93,7 @@ for n = [400 800]
     dth = [];
     M70_2 = M70_A;
     
-    while sum(sum(fix((M70_2(2,4) - M70_B(2,4))))) ~= 0
+    while sum(sum(fix((M70_2 - M70_B)))) ~= 0
         q_dot = 180/pi * inv(jv)*u;   
         q2 = q1 + q_dot*(t2-t1);
         M2 = forkin(q2');
