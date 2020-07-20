@@ -9,25 +9,25 @@ function [theta1,theta2,theta3,theta4,theta5,theta6] = invkin(Px,Py,Pz,fz,fy,fx)
         % Because the sqrt term in theta3 can be + or - we run through
         % all possible combinations (i = 2) and take the first combination that
         % satisfies the joint angle constraints.
-%         while nogo == 0;
-%             for i = 1:1:4
-%                 if i == 1
-%                     sign1 = 1;
-%                     sign3 = 1;
-%                 elseif i == 2
-%                     sign1 = 1;
-%                     sign3 = -1;
-%                 elseif i == 3
-%                     sign1 = -1;
-%                     sign3 = 1;
-%                 else
-%                     sign1 = -1;
-%                     sign3 = -1;
-%                 end
-                a1 = 150;
-                a2 = 590;
-                a3 = 130;
-                d4 = 647.07;
+        while nogo == 0;
+            for i = 1:1:4
+                if i == 1
+                    sign1 = 1;
+                    sign3 = 1;
+                elseif i == 2
+                    sign1 = 1;
+                    sign3 = -1;
+                elseif i == 3
+                    sign1 = -1;
+                    sign3 = 1;
+                else
+                    sign1 = -1;
+                    sign3 = -1;
+                end
+                a1 = 160;
+                a2 = 780;
+                a3 = 150;
+                d4 = 655;
                 rho = sqrt(Px^2+Py^2);
                 phi = atan2(Py,Px);
                 theta1 = atan2(Py,Px);
@@ -73,17 +73,17 @@ function [theta1,theta2,theta3,theta4,theta5,theta6] = invkin(Px,Py,Pz,fz,fy,fx)
 %                 if theta2>=360-115 && theta2<=360-35
 %                     theta2 = 360-theta2;
 %                 end
-%                 if theta1<=180 && theta1>=-180 && (theta2<=-115 && theta2>=-115) && theta3<=-20 && theta3>=180 && theta4<=210 && theta4>=-210 && theta5<=130 && theta5>=-130 && theta6<=2700 && theta6>=-2700
-%                     nogo = 1;
-%                     break
-%                 end
-%                 if i == 4 && nogo == 0
-%                     h = errordlg('Point unreachable due to joint angle constraints.','JOINT ERROR');
-%                     waitfor(h);
-%                     nogo = 1;
-%                     noplot = 1;
-%                     break
-%                 end
-%             end
-%          end
+                if theta1<=185 && theta1>=-185 && (theta2<=65 && theta2>=-185) && theta3<=175 && theta3>=-138 && theta4<=350 && theta4>=-350 && theta5<=130 && theta5>=-130 && theta6<=350 && theta6>=-350
+                    nogo = 1;
+                    break
+                end
+                if i == 4 && nogo == 0
+                    h = errordlg('Point unreachable due to joint angle constraints.','JOINT ERROR');
+                    waitfor(h);
+                    nogo = 1;
+                    noplot = 1;
+                    break
+                end
+            end
+         end
      end
