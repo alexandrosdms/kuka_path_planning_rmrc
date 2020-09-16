@@ -1,4 +1,5 @@
 function [theta1,theta2,theta3,theta4,theta5,theta6] = invkin(Px,Py,Pz,fz,fy,fx)
+        [a,l,d] = get_dh();
         theta4 = 0;
         theta5 = 0;
         theta6 = 0;
@@ -25,11 +26,13 @@ function [theta1,theta2,theta3,theta4,theta5,theta6] = invkin(Px,Py,Pz,fz,fy,fx)
                     sign1 = -1;
                     sign3 = -1;
                 end
-                a1 = 160;
-                a2 = 780;
-                a3 = 150;
-                d3 = 0;
-                d4 = 655;
+                % Here "a" refers to link length not twist
+                a1 = l(2);
+                a2 = l(3);
+                a3 = l(4);
+                
+                d3 = d(3);
+                d4 = d(4);
                 rho = sqrt(Px^2+Py^2);
                 phi = atan2(Py,Px);
                 theta1 = (atan2(Py,Px)-atan2(d3,sign1*sqrt(Px^2+Py^2-d3^2)));

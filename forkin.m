@@ -1,9 +1,6 @@
 function M60 = forkin(x)
 
-    a = [0 -pi/2 0 -pi/2 pi/2 -pi/2];       % link twist vector
-    l = [0 160 780 150 0 0];                % link length vector
-    d = [0 0 0 655 0 0];                 % link offset vector
-
+    [a,l,d] = get_dh();
     th = deg2rad(x);
 
     index = 1:size(th,2);
@@ -18,12 +15,6 @@ function M60 = forkin(x)
     end
 
     M60 = Mt;
-    
     p = M60(1:3,4); % TCP Position in meters
-
-    % Euler ZYX angles are used to describe tip's orientation
-    % all angles are displayed in radians
-    % disp('Euler ZYX angles')
-    %-------------Apo robotics toolbox-----------------%
     f = rot2eul(M60(1:3,1:3));
 end

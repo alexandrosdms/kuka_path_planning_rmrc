@@ -130,81 +130,81 @@ for n = [400 800]
     figure(ii+1)
     subplot(2,3,1)
     plot(dth1, 'Color', col, 'LineWidth', 1.5)
-    xlabel('Sample Point')
-    ylabel('$\dot{q_1} [{}^o/s]$', 'Fontsize',16)
+    xlabel('Sample Point', 'Fontsize',12)
+    ylabel('$\dot{q_1} [{}^o/s]$', 'Fontsize',14)
     subplot(2,3,2)
     plot(dth2, 'Color', col, 'LineWidth', 1.5)
-    xlabel('Sample Point')
-    ylabel('$\dot{q_2} [{}^o/s]$', 'Fontsize',16)
+    xlabel('Sample Point', 'Fontsize',12)
+    ylabel('$\dot{q_2} [{}^o/s]$', 'Fontsize',14)
     subplot(2,3,3)
     plot(dth3, 'Color', col, 'LineWidth', 1.5)
-    xlabel('Sample Point')
-    ylabel('$\dot{q_3} [{}^o/s]$', 'Fontsize',16)
+    xlabel('Sample Point', 'Fontsize',12)
+    ylabel('$\dot{q_3} [{}^o/s]$', 'Fontsize',14)
     subplot(2,3,4)
     plot(dth4, 'Color', col, 'LineWidth', 1.5)
-    xlabel('Sample Point')
-    ylabel('$\dot{q_4} [{}^o/s]$', 'Fontsize',16)
+    xlabel('Sample Point', 'Fontsize',12)
+    ylabel('$\dot{q_4} [{}^o/s]$', 'Fontsize',14)
     subplot(2,3,5)
     plot(dth5, 'Color', col, 'LineWidth', 1.5)
-    xlabel('Sample Point')
-    ylabel('$\dot{q_5} [{}^o/s]$', 'Fontsize',16)
+    xlabel('Sample Point', 'Fontsize',12)
+    ylabel('$\dot{q_5} [{}^o/s]$', 'Fontsize',14)
     subplot(2,3,6)
     plot(dth6, 'Color', col, 'LineWidth', 1.5)
-    xlabel('Sample Point')
-    ylabel('$\dot{q_6} [{}^o/s]$', 'Fontsize',16)
-    sgtitle('Joint Velecities','FontSize',14)
+    xlabel('Sample Point', 'Fontsize',12)
+    ylabel('$\dot{q_6} [{}^o/s]$', 'Fontsize',14)
+    sgtitle('Joint Velecities','FontSize',16)
     
     figure(ii+2)
     subplot(2,3,1)
     plot(th1, 'Color', col, 'LineWidth', 1.5)
-    xlabel('Sample Point')
-    ylabel('${q_1} [{}^o]$', 'Fontsize',16)
+    xlabel('Sample Point', 'Fontsize',12)
+    ylabel('${q_1} [{}^o]$', 'Fontsize',14)
     subplot(2,3,2)
     plot(th2, 'Color', col, 'LineWidth', 1.5)
-    xlabel('Sample Point')
-    ylabel('${q_2} [{}^o]$', 'Fontsize',16)
+    xlabel('Sample Point', 'Fontsize',12)
+    ylabel('${q_2} [{}^o]$', 'Fontsize',14)
     subplot(2,3,3)
     plot(th3, 'Color', col, 'LineWidth', 1.5)
-    xlabel('Sample Point')
-    ylabel('${q_3} [{}^o]$', 'Fontsize',16)
+    xlabel('Sample Point', 'Fontsize',12)
+    ylabel('${q_3} [{}^o]$', 'Fontsize',14)
     subplot(2,3,4)
     plot(th4, 'Color', col, 'LineWidth', 1.5)
-    xlabel('Sample Point')
-    ylabel('${q_4} [{}^o]$', 'Fontsize',16)
+    xlabel('Sample Point', 'Fontsize',12)
+    ylabel('${q_4} [{}^o]$', 'Fontsize',14)
     subplot(2,3,5)
     plot(th5, 'Color', col, 'LineWidth', 1.5)
-    xlabel('Sample Point')
-    ylabel('${q_5} [{}^o]$', 'Fontsize',16)
+    xlabel('Sample Point', 'Fontsize',12)
+    ylabel('${q_5} [{}^o]$', 'Fontsize',14)
     subplot(2,3,6)
     plot(th6, 'Color', col, 'LineWidth', 1.5)
-    xlabel('Sample Point')
-    ylabel('${q_6} [{}^o]$', 'Fontsize',16)
-    sgtitle('Joint Angles','FontSize',14)
+    xlabel('Sample Point', 'Fontsize',12)
+    ylabel('${q_6} [{}^o]$', 'Fontsize',14)
+    sgtitle('Joint Angles','FontSize',16)
 
     figure(ii+3),plot(det_/10^8, 'Color', col, 'LineWidth', 1.5)
-    xlabel('Sample Point')
-    ylabel('$Determinant Value (\times 10^8)$')
-    title('Determinant of Jacobian','FontSize',14)
+    xlabel('Sample Point', 'Fontsize',12)
+    ylabel('$Determinant Value (\times 10^8)$', 'Fontsize',12)
+    title('Determinant of Jacobian','FontSize',16)
  
 
     figure(ii+4)
     subplot(3,1,1)
     plot(xpos, 'Color', col, 'LineWidth', 1.5)
-    xlabel('Sample Point')
-    ylabel('X Position [mm]')
+    xlabel('Sample Point', 'Fontsize',12)
+    ylabel('X [mm]', 'Fontsize',12)
  
 
     subplot(3,1,2)
     plot(ypos, 'Color', col, 'LineWidth', 1.5)
-    xlabel('Sample Point')
-    ylabel('Y Position [mm]')
+    xlabel('Sample Point', 'Fontsize',12)
+    ylabel('Yn[mm]', 'Fontsize',12)
  
 
     subplot(3,1,3)
     plot(zpos, 'Color', col, 'LineWidth', 1.5)
-    xlabel('Sample Point')
-    ylabel('Z Position [mm]')
-    sgtitle('Tool Position','FontSize',14)
+    xlabel('Sample Point', 'Fontsize',12)
+    ylabel('Z [mm]', 'Fontsize',12)
+    sgtitle('Tool Position','FontSize',16)
 
  
 
@@ -218,30 +218,30 @@ for n = [400 800]
     figure(ii+5)
     subplot(3,1,1)
     plot(errorx, 'Color', col, 'LineWidth', 1.5)
-    xlabel('Sample Point')
-    ylabel('Error X [mm]')
+    xlabel('Sample Point', 'Fontsize',12)
+    ylabel('X [mm]', 'Fontsize',12)
  
 
     subplot(3,1,2)
     plot(errory, 'Color', col, 'LineWidth', 1.5)
-    xlabel('Sample Point')
-    ylabel('Error Y [mm]')
+    xlabel('Sample Point', 'Fontsize',12)
+    ylabel('Y [mm]', 'Fontsize',12)
  
 
     subplot(3,1,3)
     plot(errorz, 'Color', col, 'LineWidth', 1.5)
-    xlabel('Sample Point')
-    ylabel('Error Z [mm]')
+    xlabel('Sample Point', 'Fontsize',12)
+    ylabel('Z [mm]', 'Fontsize',12)
     sgtitle('Error Between Desired and Generated Path','FontSize',14)
 
     figure(ii+6)
     plot3(x, y, z, '-x', 'Color', 'r', 'LineWidth', 1.5)
     hold on
     plot3(xpos,ypos,zpos,'-x', 'Color', 'b', 'LineWidth', 1.5)
-    xlabel('X position [mm]')
-    ylabel('Y position [mm]')
-    zlabel('Z position [mm]')
-    title('Comparisson between Desired and Generated path','FontSize',14)
+    xlabel('X position [mm]', 'Fontsize',12)
+    ylabel('Y position [mm]', 'Fontsize',12)
+    zlabel('Z position [mm]', 'Fontsize',12)
+    title('Comparisson between Desired and Generated path','FontSize',16)
     hold off
     grid on
     legend('Desired','Genarated')
@@ -252,7 +252,8 @@ for ii = 1:5
     L = findobj(ii,'type','line');
     copyobj(L,findobj(ii+6,'type','axes'));
 end
-for k = 1:5
+
+for k = 5:-1:1
     switch(k)
         case {1,2}
             l = 2; m = 3;
@@ -264,7 +265,6 @@ for k = 1:5
     end
     j = 1:l*m;
     for j = j
-        figure(k),subplot(l,m,j),xlim([0 400]),xticks(0:50:400),xticklabels(0:8),xlabel('Time [s]');
+        figure(k),subplot(l,m,j),xlim([0 400]),xticks(0:50:400),xticklabels(0:8),xlabel('Time [s]', 'Fontsize',12);
     end
 end
-% close(figure(1),figure(2),figure(3),figure(4),figure(5);

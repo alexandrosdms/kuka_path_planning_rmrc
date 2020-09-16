@@ -2,10 +2,7 @@ function [jv] = jacob(x)
     if size(x,1) ~= 1
         x = x';
     end
-    
-    a = [0 -pi/2 0 -pi/2 pi/2 -pi/2];       % link twist vector
-    l = [0 160 780 150 0 0];                % link length vector
-    d = [0 0 0 655 0 0];
+    [a,l,d] = get_dh();
     th = deg2rad(x);
     
     Mt = eye(4);
@@ -20,9 +17,7 @@ function [jv] = jacob(x)
     end
 
     M60 = Mt;
-    %----------------Apo robotics toolbox-------------------------%
     M76 = eul2trm([-pi -pi/2 0]);
-    %-------------------------------------------------------------%
     M76(1:3,4) = [125 0 -(250+153)]';
     
     M70 = M60*M76;

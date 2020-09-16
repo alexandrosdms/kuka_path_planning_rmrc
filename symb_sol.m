@@ -8,9 +8,7 @@ syms q5 real;
 syms q6 real;
 syms M_tot;
 
-a = [0 -pi/2 0 -pi/2 pi/2 -pi/2];       % link twist vector
-l = [0 150 590 130 0 0];      % link lengq vector
-d = [0 0 0 647.07 0 0];       % link offset vector
+[a,l,d] = get_dh();
 q = [q1 q2 q3 q4 q5 q6];
 % a = [0 -pi/2 0 -pi/2 pi/2 -pi/2];       % link twist vector
 % l = [0 0 a2 a3 0 0];      % link lengq vector
