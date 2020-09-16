@@ -25,5 +25,5 @@ function M60 = forkin(x)
     % all angles are displayed in radians
     % disp('Euler ZYX angles')
     %-------------Apo robotics toolbox-----------------%
-    f = rotm2eul(M60(1:3,1:3));
+    f = rot2eul(M60(1:3,1:3));
 end

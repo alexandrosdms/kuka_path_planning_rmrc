@@ -46,7 +46,7 @@ function [theta1,theta2,theta3,theta4,theta5,theta6] = invkin(Px,Py,Pz,fz,fy,fx)
                 c2 = cos(theta2);
                 s2 = sin(theta2);
 
-                R = eul2rotm([fz fy fx]);
+                R = eul2rot([fz fy fx]);
                 s23 = ((-a3-a2*c3)*Pz+(c1*Px+s1*Py-a1)*(a2*s3-d4))/(Pz^2+(c1*Px+s1*Py-a1)^2);
                 c23 = ((a2*s3-d4)*Pz+(a3+a2*c3)*(c1*Px+s1*Py-a1))/(Pz^2+(c1*Px+s1*Py-a1)^2);
                 r13 = R(1,3);

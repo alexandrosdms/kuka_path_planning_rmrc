@@ -1,22 +1,23 @@
 clc
 clear
-MS0 = eul2tform([0 0 0]);   % Prosanatolismos trapeziou os pros vasi
+close('all')
+MS0 = eul2trm([0 0 0]);   % Prosanatolismos trapeziou os pros vasi
                             % Idios me auton tis vasis
 PS0 = [500 0 100]';       % Thesi akmis trapeziou
 MS0(1:3,4) = PS0;
 
-MAS = eul2tform([0 0 0]);   % prosanatolismos A os pros trapezi
+MAS = eul2trm([0 0 0]);   % prosanatolismos A os pros trapezi
 PAS = [0 -200 0]';           % thesi A os pros trapezi
 MAS(1:3,4) = PAS;
 
-MBS = eul2tform([0 0 0]);
+MBS = eul2trm([0 0 0]);
 PBS = [0 200 0]';          % kinoumaste stin dieuthinsi XS kata 40cm
 MBS(1:3,4) = PBS;
 
-MAT = eul2tform([0 0 0]);   % prosanatolismos ergaleiou os pros a kata ti sig.
-MBT = eul2tform([0 0 0]);
+MAT = eul2trm([0 0 0]);   % prosanatolismos ergaleiou os pros a kata ti sig.
+MBT = eul2trm([0 0 0]);
 
-MT6 = eul2tform([-pi -pi/2 0]); % prosanatolismos ergaleiou os pros 6
+MT6 = eul2trm([-pi -pi/2 0]); % prosanatolismos ergaleiou os pros 6
 MT6(1:3,4) = [125 0 -(250+153)]';  % thesi syst. ergaleiou os pros 6
 
 % euresi simeiou 6 otan to ergaleiou vrisketai stin ekkinisi A kai
@@ -24,9 +25,9 @@ MT6(1:3,4) = [125 0 -(250+153)]';  % thesi syst. ergaleiou os pros 6
 M60_A = MS0*MAS*inv(MAT)*inv(MT6); % pinakas gia lisi tou antistrofou
 M60_B = MS0*MBS*inv(MBT)*inv(MT6);
 
-fA = rotm2eul(M60_A(1:3,1:3));  % gonies euler
+fA = rot2eul(M60_A(1:3,1:3));  % gonies euler
 PA = M60_A(1:3,4);              % thesi 6 gia A
-fB = rotm2eul(M60_B(1:3,1:3));
+fB = rot2eul(M60_B(1:3,1:3));
 PB = M60_B(1:3,4);
 disp('Inverse Kinematics problem for A')
 [qA1,qA2,qA3,qA4,qA5,qA6] = invkin(PA(1),PA(2),PA(3),fA(1),fA(2),fA(3)) % gonies arthroseon gia A
@@ -53,9 +54,6 @@ for n = [400 800]
         case 6
             col = 'r';
             label = 'Sample Points = 200';
-        case 12
-            col = 'g';
-            label = 'Sample Points = 400';
         otherwise
     end
     dist = 400; % apostasi
@@ -127,64 +125,65 @@ for n = [400 800]
         ypos = [ypos M70_2(2,4)];
         zpos = [zpos M70_2(3,4)];
     end
-
+    
+    set(0,'defaulttextinterpreter','latex')
     figure(ii+1)
     subplot(2,3,1)
     plot(dth1, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point')
-    ylabel('$\dot{q_1}$','Interpreter','latex','Fontsize',16)
+    ylabel('$\dot{q_1} [{}^o/s]$', 'Fontsize',16)
     subplot(2,3,2)
     plot(dth2, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point')
-    ylabel('$\dot{q_2}$','Interpreter','latex','Fontsize',16)
+    ylabel('$\dot{q_2} [{}^o/s]$', 'Fontsize',16)
     subplot(2,3,3)
     plot(dth3, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point')
-    ylabel('$\dot{q_3}$','Interpreter','latex','Fontsize',16)
+    ylabel('$\dot{q_3} [{}^o/s]$', 'Fontsize',16)
     subplot(2,3,4)
     plot(dth4, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point')
-    ylabel('$\dot{q_4}$','Interpreter','latex','Fontsize',16)
+    ylabel('$\dot{q_4} [{}^o/s]$', 'Fontsize',16)
     subplot(2,3,5)
     plot(dth5, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point')
-    ylabel('$\dot{q_5}$','Interpreter','latex','Fontsize',16)
+    ylabel('$\dot{q_5} [{}^o/s]$', 'Fontsize',16)
     subplot(2,3,6)
     plot(dth6, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point')
-    ylabel('$\dot{q_6}$','Interpreter','latex','Fontsize',16)
-    sgtitle('Joint Velecities in [deg/s]')
+    ylabel('$\dot{q_6} [{}^o/s]$', 'Fontsize',16)
+    sgtitle('Joint Velecities')
     
     figure(ii+2)
     subplot(2,3,1)
     plot(th1, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point')
-    ylabel('${q_1}$','Interpreter','latex','Fontsize',16)
+    ylabel('${q_1} [{}^o]$', 'Fontsize',16)
     subplot(2,3,2)
     plot(th2, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point')
-    ylabel('${q_2}$','Interpreter','latex','Fontsize',16)
+    ylabel('${q_2} [{}^o]$', 'Fontsize',16)
     subplot(2,3,3)
     plot(th3, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point')
-    ylabel('${q_3}$','Interpreter','latex','Fontsize',16)
+    ylabel('${q_3} [{}^o]$', 'Fontsize',16)
     subplot(2,3,4)
     plot(th4, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point')
-    ylabel('${q_4}$','Interpreter','latex','Fontsize',16)
+    ylabel('${q_4} [{}^o]$', 'Fontsize',16)
     subplot(2,3,5)
     plot(th5, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point')
-    ylabel('${q_5}$','Interpreter','latex','Fontsize',16)
+    ylabel('${q_5} [{}^o]$', 'Fontsize',16)
     subplot(2,3,6)
     plot(th6, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point')
-    ylabel('${q_6}$','Interpreter','latex','Fontsize',16)
-    sgtitle('Joint Angles in [deg]')
+    ylabel('${q_6} [{}^o]$', 'Fontsize',16)
+    sgtitle('Joint Angles')
 
     figure(ii+3),plot(det_/10^8, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point')
-    ylabel('Determinant Value (x10^8)')
+    ylabel('$Determinant Value (\times 10^8)$')
     title('Determinant of Jacobian')
  
 
@@ -205,7 +204,7 @@ for n = [400 800]
     plot(zpos, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point')
     ylabel('Z Position [mm]')
-    sgtitle('Tool Positions')
+    sgtitle('Tool Position')
 
  
 
@@ -233,7 +232,7 @@ for n = [400 800]
     plot(errorz, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point')
     ylabel('Error Z [mm]')
-    sgtitle('Errors')
+    sgtitle('Error Between Desired and Generated Path')
 
     figure(ii+6)
     plot3(x, y, z, '-x', 'Color', 'r', 'LineWidth', 1.5)
@@ -253,5 +252,19 @@ for ii = 1:5
     L = findobj(ii,'type','line');
     copyobj(L,findobj(ii+6,'type','axes'));
 end
-
-close(figure(1),figure(2),figure(3),figure(4),figure(5))
+for k = 1:5
+    switch(k)
+        case {1,2}
+            l = 2; m = 3;
+        case 3
+            l = 1; m = 1;
+        case {4,5}
+            l = 3; m = 1;
+        otherwise
+    end
+    j = 1:l*m;
+    for j = j
+        figure(k),subplot(l,m,j),xlim([0 400]),xticks(0:50:400),xticklabels(0:8),xlabel('Time [s]');
+    end
+end
+% close(figure(1),figure(2),figure(3),figure(4),figure(5);
