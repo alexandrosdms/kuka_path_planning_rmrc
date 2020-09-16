@@ -152,7 +152,7 @@ for n = [400 800]
     plot(dth6, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point')
     ylabel('$\dot{q_6} [{}^o/s]$', 'Fontsize',16)
-    sgtitle('Joint Velecities')
+    sgtitle('Joint Velecities','FontSize',14)
     
     figure(ii+2)
     subplot(2,3,1)
@@ -179,12 +179,12 @@ for n = [400 800]
     plot(th6, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point')
     ylabel('${q_6} [{}^o]$', 'Fontsize',16)
-    sgtitle('Joint Angles')
+    sgtitle('Joint Angles','FontSize',14)
 
     figure(ii+3),plot(det_/10^8, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point')
     ylabel('$Determinant Value (\times 10^8)$')
-    title('Determinant of Jacobian')
+    title('Determinant of Jacobian','FontSize',14)
  
 
     figure(ii+4)
@@ -204,7 +204,7 @@ for n = [400 800]
     plot(zpos, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point')
     ylabel('Z Position [mm]')
-    sgtitle('Tool Position')
+    sgtitle('Tool Position','FontSize',14)
 
  
 
@@ -232,7 +232,7 @@ for n = [400 800]
     plot(errorz, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point')
     ylabel('Error Z [mm]')
-    sgtitle('Error Between Desired and Generated Path')
+    sgtitle('Error Between Desired and Generated Path','FontSize',14)
 
     figure(ii+6)
     plot3(x, y, z, '-x', 'Color', 'r', 'LineWidth', 1.5)
@@ -241,7 +241,7 @@ for n = [400 800]
     xlabel('X position [mm]')
     ylabel('Y position [mm]')
     zlabel('Z position [mm]')
-    title('Comparisson between Desired and Generated path')
+    title('Comparisson between Desired and Generated path','FontSize',14)
     hold off
     grid on
     legend('Desired','Genarated')
