@@ -1,30 +1,24 @@
 function [theta1,theta2,theta3,theta4,theta5,theta6] = invkin(Px,Py,Pz,fz,fy,fx)
         [a,l,d] = get_dh();
-        theta4 = 0;
-        theta5 = 0;
-        theta6 = 0;
-        sign1 = 1;
-        sign3 = 1;
         nogo = 0;
-        noplot = 0;
         % Because the sqrt term in theta3 can be + or - we run through
         % all possible combinations (i = 2) and take the first combination that
         % satisfies the joint angle constraints.
         sols = [];
-        while nogo == 0;
-            for i = 1:1:4
+        while nogo == 0
+            for i = 1:4
                 if i == 1
                     sign1 = 1;
-                    sign3 = 1;
+                    sign2 = 1;
                 elseif i == 2
                     sign1 = 1;
-                    sign3 = -1;
+                    sign2 = -1;
                 elseif i == 3
                     sign1 = -1;
-                    sign3 = 1;
+                    sign2 = 1;
                 else
                     sign1 = -1;
-                    sign3 = -1;
+                    sign2 = -1;
                 end
                 % Here "a" refers to link length not twist
                 a1 = l(2);
@@ -40,12 +34,12 @@ function [theta1,theta2,theta3,theta4,theta5,theta6] = invkin(Px,Py,Pz,fz,fy,fx)
                 s1 = sin(theta1);
                 
                 K = (Px^2+Py^2+Pz^2+a1^2-(2*Px*a1)/c1-a2^2-a3^2-d4^2)/(2*a2);
-                theta3 = (atan2(a3,d4)-atan2(K,sign3*sqrt(a3^2+d4^2-K^2)));
+                theta3 = (atan2(a3,d4)-atan2(K,sign2*sqrt(a3^2+d4^2-K^2)));
                 c3 = cos(theta3);
                 s3 = sin(theta3);
                 
-                t23 = atan2((-a3-a2*c3)*Pz-(c1*Px+s1*Py-a1)*(d4-a2*s3),(a2*s3-d4)*Pz+(a3+a2*c3)*(c1*Px+s1*Py-a1));
-                theta2 = (t23 - theta3);
+                theta23 = atan2((-a3-a2*c3)*Pz-(c1*Px+s1*Py-a1)*(d4-a2*s3),(a2*s3-d4)*Pz+(a3+a2*c3)*(c1*Px+s1*Py-a1));
+                theta2 = (theta23 - theta3);
                 c2 = cos(theta2);
                 s2 = sin(theta2);
 
@@ -88,7 +82,6 @@ function [theta1,theta2,theta3,theta4,theta5,theta6] = invkin(Px,Py,Pz,fz,fy,fx)
                     h = errordlg('Point unreachable due to joint angle constraints.','JOINT ERROR');
                     waitfor(h);
                     nogo = 1;
-                    noplot = 1;
                     break
                 end
             end
