@@ -17,8 +17,8 @@ MBS(1:3,4) = PBS;
 MAT = eul2trm([0 0 0]);   % prosanatolismos ergaleiou os pros a kata ti sig.
 MBT = eul2trm([0 0 0]);
 
-MT6 = eul2trm([pi/2 0 pi/2]); % prosanatolismos ergaleiou os pros 6
-MT6(1:3,4) = [-125 0 (250+95)]';  % thesi syst. ergaleiou os pros 6
+MT6 = eul2trm([pi -pi/2 0]); % prosanatolismos ergaleiou os pros 6
+MT6(1:3,4) = [-125 0 (250+153)]';  % thesi syst. ergaleiou os pros 6
 
 % euresi simeiou 6 otan to ergaleiou vrisketai stin ekkinisi A kai
 % termatismo B
