@@ -1,52 +1,81 @@
-clc
-clear
-close('all')
-MS0 = eul2trm([0 0 0]);   % Prosanatolismos trapeziou os pros vasi
-                            % Idios me auton tis vasis
-PS0 = [500 0 100]';       % Thesi akmis trapeziou
-MS0(1:3,4) = PS0;
 
-MAS = eul2trm([0 0 0]);   % prosanatolismos A os pros trapezi
-PAS = [0 -200 0]';           % thesi A os pros trapezi
+% Alexandros Dimas
+% University of Patras
+% Department of Mechanical Engineering and Aeronautics
+% Robotics Group
+% Spring 2020
+%{
+
+Convention 1: MBA refers to pose of frame {B} as seen by {A}. Similar
+notation is used to describe relative position and orientation of two
+frames.
+
+Covention 2: Table frame {S} is attaches to the geometric center of a table
+of leangth of 500 mm at least. Orientation of {S} is the same as that of 
+the base frame{0} and It is translated 500 mm in the x-direction and
+100 in the z-direction of with respect to the same frame.
+
+%}
+clc, clear, close('all');
+
+%------------------------- Attaching Frames ------------------------------%
+MS0 = eul2trm([0 0 0]); % Initialization of pose of the table {S} relative
+% to base {0}
+PS0 = [500 0 100]';
+MS0(1:3,4) = PS0; % Modification of relative position
+
+% Frames attached to start and end of line path
+MAS = eul2trm([0 0 0]); % Start of line path
+PAS = [0 -200 0]';
 MAS(1:3,4) = PAS;
 
 MBS = eul2trm([0 0 0]);
-PBS = [0 200 0]';          % kinoumaste stin dieuthinsi XS kata 40cm
+PBS = [0 200 0]';
 MBS(1:3,4) = PBS;
 
-MAT = eul2trm([0 0 0]);   % prosanatolismos ergaleiou os pros a kata ti sig.
+% Desired pose of frames {A} and {B} with respect to tool {T}. We choose
+% coincedence to be the relationship between {A} and {T} and {B} and {T}
+% when the tool approaches either one of them
+MAT = eul2trm([0 0 0]); 
 MBT = eul2trm([0 0 0]);
 
-MT6 = eul2trm([pi -pi/2 0]); % prosanatolismos ergaleiou os pros 6
-MT6(1:3,4) = [-125 0 (250+153)]';  % thesi syst. ergaleiou os pros 6
+% Pose of tool with respect to wrist frame {6} - predetermined
+MT6 = eul2trm([pi -pi/2 0]);
+MT6(1:3,4) = [-125 0 (250+153)]';
 
-% euresi simeiou 6 otan to ergaleiou vrisketai stin ekkinisi A kai
-% termatismo B
-M60_A = MS0*MAS*inv(MAT)*inv(MT6); % pinakas gia lisi tou antistrofou
+% Knowing the above we compute the wrist's frame pose when tool frame has
+% the desired pose relative to {A} and {B} as was stated by MAT and MBT
+% respectively
+% See John J. Craig. 2004. Introduction to Robotics: Mechanics and Control
+% (3rd. ed.). Addison-Wesley Longman Pvelocityblishing Co., Inc., USA,
+%p. 125-126
+M60_A = MS0*MAS*inv(MAT)*inv(MT6); % Pose of {6} relative to {0} when at {A}
 M60_B = MS0*MBS*inv(MBT)*inv(MT6);
 
-fA = rot2eul(M60_A(1:3,1:3));  % gonies euler
-PA = M60_A(1:3,4);              % thesi 6 gia A
+%------------------- Inverse & Forward kinematics problems ---------------%
+fA = rot2eul(M60_A(1:3,1:3)); % Evelocityler ZYX angles
+PA = M60_A(1:3,4); % Relative displacement of {A}
 fB = rot2eul(M60_B(1:3,1:3));
 PB = M60_B(1:3,4);
 disp('Inverse Kinematics problem for A')
-[qA1,qA2,qA3,qA4,qA5,qA6] = invkin(PA(1),PA(2),PA(3),fA(1),fA(2),fA(3)) % gonies arthroseon gia A
+[qA1,qA2,qA3,qA4,qA5,qA6] = invkin(PA(1),PA(2),PA(3),fA(1),fA(2),fA(3))
 disp('Forward Kinematics problem for A')
-MA = forkin([qA1 qA2 qA3 qA4 qA5 qA6])                                  % pianakas met/smou gia A
-
-reachA = sqrt(MA(1,4)^2+MA(2,4)^2+MA(3,4)^2);    % elegxos os pros oria xorou ergasias
+MA = forkin([qA1 qA2 qA3 qA4 qA5 qA6])
 
 disp('Inverse Kinematics problem for B')
 [qB1,qB2,qB3,qB4,qB5,qB6] = invkin(PB(1),PB(2),PB(3),fB(1),fB(2),fB(3))
 disp('Forward Kinematics problem for B')
 MB = forkin([qB1 qB2 qB3 qB4 qB5 qB6])
 
-reachB = sqrt(MA(1,4)^2+MA(2,4)^2+MA(3,4)^2);
+% For debvelocitygging, to be added to solvelocitytion check
+% reachA = sqrt(MA(1,4)^2+MA(2,4)^2+MA(3,4)^2);
+% reachB = sqrt(MA(1,4)^2+MA(2,4)^2+MA(3,4)^2);
 
 
-%RMRC
+%--------------------------- RMRC Algorithm ------------------------------%
 ii = 0;
 for n = [400 800]
+    % Switching color of graphs for each sample size
     switch ii
         case 0
             col = 'b';
@@ -56,22 +85,21 @@ for n = [400 800]
             label = 'Sample Points = 200';
         otherwise
     end
-    dist = 400; % apostasi
-    u = 50;
-    dt = dist/u; % sinolikos xronos
-    % time = linspace(0,dt,100);
-
-    % Initialization
-    q1 = [qA1 qA2 qA3 qA4 qA5 qA6]';
+    distance = 400;
+    velocity = 50;
+    durationMovement = distance/velocity;
+    
+    % Initialization of parameters
+    q1 = [qA1 qA2 qA3 qA4 qA5 qA6]'; % Joint angles
     jv = jacob(q1');
     M1 = M60_A;
     M7A = M1*MT6;
     M2 = zeros(4,4);
-    u_lin = [0 50 0]; % p_dot (1:3)
-    u_rot = [0 0 0]; % p_dot (4:6)
-    u = [u_lin u_rot]';
+    linearVelocity = [0 50 0]; % p_dot (1:3)
+    angularVelocity = [0 0 0]; % p_dot (4:6)
+    velocity = [linearVelocity angularVelocity]';
 
-    det_ = det(jv);
+    detJacob = det(jv);
 
     th1 = q1(1);
     th2 = q1(2);
@@ -80,39 +108,44 @@ for n = [400 800]
     th5 = q1(5);
     th6 = q1(6);
 
-    xpos = M7A(1,4);
-    ypos = M7A(2,4);
-    zpos = M7A(3,4);
+    xPosition = M7A(1,4);
+    yPosition = M7A(2,4);
+    zPosition = M7A(3,4);
     
-    t2 = dt/n;
     t1 = 0;
+    t2 = durationMovement/n;
+    
     M70_A = MA*MT6;
     M70_B = MB*MT6;
-    dth = [];
+    timeDerJointAngles = [];
     M70_2 = M70_A;
     
-    while sum(sum(fix((M70_2 - M70_B)))) ~= 0
-        q_dot = 180/pi * inv(jv)*u;   
-        q2 = q1 + q_dot*(t2-t1);
-        M2 = forkin(q2');
-        M70_2 = M2*MT6;     % Thesi ergaleiou gia to neo set gonion
+    condition = (sum(sum(fix((M70_2 - M70_B)))) ~= 0);
+    % As long as the tool frame at each iteration does not coincide with
+    % frame {B} at the path end
+    while condition
+        q_dot = 180/pi * inv(jv)*velocity; % Time derivative approximation  
+        q2 = q1 + q_dot*(t2-t1); % Numeric integration
+        M2 = forkin(q2'); % New pose
+        M70_2 = M2*MT6; % New pose of tool
 
+        % Initialization for next iteration
         q1 = q2;
-        M2 = forkin(q2);
         jv = jacob(q2);
-
         t1 = t2;
-        t2 = t2+dt/n;
+        t2 = t2+durationMovement/n;
+        condition = (sum(sum(fix((M70_2 - M70_B)))) ~= 0);
+        
+        % Saving parameters to plot
+        detJacob = [detJacob det(jv)];
 
-        det_ = [det_ det(jv)];
-
-        dth = [dth q_dot];      % Taxitites arthroseon
-        dth1 = dth(1,:);
-        dth2 = dth(2,:);
-        dth3 = dth(3,:);
-        dth4 = dth(4,:);
-        dth5 = dth(5,:);
-        dth6 = dth(6,:);
+        timeDerJointAngles = [timeDerJointAngles q_dot];      % Taxitites arthroseon
+        timeDerJointAngles1 = timeDerJointAngles(1,:);
+        timeDerJointAngles2 = timeDerJointAngles(2,:);
+        timeDerJointAngles3 = timeDerJointAngles(3,:);
+        timeDerJointAngles4 = timeDerJointAngles(4,:);
+        timeDerJointAngles5 = timeDerJointAngles(5,:);
+        timeDerJointAngles6 = timeDerJointAngles(6,:);
 
         th1 = [th1 q2(1)];      % Times gonion arthroseon
         th2 = [th2 q2(2)];
@@ -121,35 +154,36 @@ for n = [400 800]
         th5 = [th5 q2(5)];
         th6 = [th6 q2(6)];
 
-        xpos = [xpos M70_2(1,4)];   % Thesi ergaleiou ston xoro
-        ypos = [ypos M70_2(2,4)];
-        zpos = [zpos M70_2(3,4)];
+        xPosition = [xPosition M70_2(1,4)];   % Thesi ergaleiovelocity ston xoro
+        yPosition = [yPosition M70_2(2,4)];
+        zPosition = [zPosition M70_2(3,4)];
     end
     
+    % Plot graphs
     set(0,'defaulttextinterpreter','latex')
     figure(ii+1)
     subplot(2,3,1)
-    plot(dth1, 'Color', col, 'LineWidth', 1.5)
+    plot(timeDerJointAngles1, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point', 'Fontsize',12)
     ylabel('$\dot{q_1} [{}^o/s]$', 'Fontsize',14)
     subplot(2,3,2)
-    plot(dth2, 'Color', col, 'LineWidth', 1.5)
+    plot(timeDerJointAngles2, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point', 'Fontsize',12)
     ylabel('$\dot{q_2} [{}^o/s]$', 'Fontsize',14)
     subplot(2,3,3)
-    plot(dth3, 'Color', col, 'LineWidth', 1.5)
+    plot(timeDerJointAngles3, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point', 'Fontsize',12)
     ylabel('$\dot{q_3} [{}^o/s]$', 'Fontsize',14)
     subplot(2,3,4)
-    plot(dth4, 'Color', col, 'LineWidth', 1.5)
+    plot(timeDerJointAngles4, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point', 'Fontsize',12)
     ylabel('$\dot{q_4} [{}^o/s]$', 'Fontsize',14)
     subplot(2,3,5)
-    plot(dth5, 'Color', col, 'LineWidth', 1.5)
+    plot(timeDerJointAngles5, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point', 'Fontsize',12)
     ylabel('$\dot{q_5} [{}^o/s]$', 'Fontsize',14)
     subplot(2,3,6)
-    plot(dth6, 'Color', col, 'LineWidth', 1.5)
+    plot(timeDerJointAngles6, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point', 'Fontsize',12)
     ylabel('$\dot{q_6} [{}^o/s]$', 'Fontsize',14)
     sgtitle('Joint Velecities','FontSize',16)
@@ -181,40 +215,40 @@ for n = [400 800]
     ylabel('${q_6} [{}^o]$', 'Fontsize',14)
     sgtitle('Joint Angles','FontSize',16)
 
-    figure(ii+3),plot(det_/10^8, 'Color', col, 'LineWidth', 1.5)
+    figure(ii+3),plot(detJacob/10^8, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point', 'Fontsize',12)
-    ylabel('$Determinant Value (\times 10^8)$', 'Fontsize',12)
+    ylabel('$Determinant Valvelocitye (\times 10^8)$', 'Fontsize',12)
     title('Determinant of Jacobian','FontSize',16)
  
 
     figure(ii+4)
     subplot(3,1,1)
-    plot(xpos, 'Color', col, 'LineWidth', 1.5)
+    plot(xPosition, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point', 'Fontsize',12)
     ylabel('X [mm]', 'Fontsize',12)
  
 
     subplot(3,1,2)
-    plot(ypos, 'Color', col, 'LineWidth', 1.5)
+    plot(yPosition, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point', 'Fontsize',12)
     ylabel('Yn[mm]', 'Fontsize',12)
  
 
     subplot(3,1,3)
-    plot(zpos, 'Color', col, 'LineWidth', 1.5)
+    plot(zPosition, 'Color', col, 'LineWidth', 1.5)
     xlabel('Sample Point', 'Fontsize',12)
     ylabel('Z [mm]', 'Fontsize',12)
     sgtitle('Tool Position','FontSize',16)
 
  
 
-    x = 500*ones(1,length(ypos));
-    y = linspace(-200,200,length(xpos));
-    z = 100*ones(1,length(zpos));
+    x = 500*ones(1,length(yPosition));
+    y = linspace(-200,200,length(xPosition));
+    z = 100*ones(1,length(zPosition));
 
-    errorx = xpos - x;
-    errory = ypos - y;
-    errorz = zpos - z;
+    errorx = xPosition - x;
+    errory = yPosition - y;
+    errorz = zPosition - z;
     figure(ii+5)
     subplot(3,1,1)
     plot(errorx, 'Color', col, 'LineWidth', 1.5)
@@ -237,7 +271,7 @@ for n = [400 800]
     figure(ii+6)
     plot3(x, y, z, '-x', 'Color', 'r', 'LineWidth', 1.5)
     hold on
-    plot3(xpos,ypos,zpos,'-x', 'Color', 'b', 'LineWidth', 1.5)
+    plot3(xPosition,yPosition,zPosition,'-x', 'Color', 'b', 'LineWidth', 1.5)
     xlabel('X position [mm]', 'Fontsize',12)
     ylabel('Y position [mm]', 'Fontsize',12)
     zlabel('Z position [mm]', 'Fontsize',12)
@@ -248,11 +282,12 @@ for n = [400 800]
     ii = ii+6;
 end
 
+% Combine graphs for comparison
 for ii = 1:5
     L = findobj(ii,'type','line');
     copyobj(L,findobj(ii+6,'type','axes'));
 end
-
+% Show graphs for sample size n = 400 first
 for k = 5:-1:1
     switch(k)
         case {1,2}
