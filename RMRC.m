@@ -49,8 +49,8 @@ MT6(1:3,4) = [-125 0 (250+153)]';
 % See John J. Craig. 2004. Introduction to Robotics: Mechanics and Control
 % (3rd. ed.). Addison-Wesley Longman Pvelocityblishing Co., Inc., USA,
 %p. 125-126
-M60_A = MS0*MAS*inv(MAT)*inv(MT6); % Pose of {6} relative to {0} when at {A}
-M60_B = MS0*MBS*inv(MBT)*inv(MT6);
+M60_A = MS0*MAS/MAT/MT6; % Pose of {6} relative to {0} when at {A}
+M60_B = MS0*MBS/MBT/MT6;
 
 %------------------- Inverse & Forward kinematics problems ---------------%
 fA = rot2eul(M60_A(1:3,1:3)); % Evelocityler ZYX angles
@@ -80,9 +80,11 @@ for n = [400 800]
         case 0
             col = 'b';
             label = 'Sample Points = 100';
+            jj = 1;
         case 6
             col = 'r';
             label = 'Sample Points = 200';
+            jj = 2;
         otherwise
     end
     distance = 400;
@@ -124,7 +126,7 @@ for n = [400 800]
     % As long as the tool frame at each iteration does not coincide with
     % frame {B} at the path end
     while condition
-        q_dot = 180/pi * inv(jv)*velocity; % Time derivative approximation  
+        q_dot = (180/pi)*eye(6)/jv*velocity; % Time derivative approximation  
         q2 = q1 + q_dot*(t2-t1); % Numeric integration
         M2 = forkin(q2'); % New pose
         M70_2 = M2*MT6; % New pose of tool
