@@ -1,3 +1,17 @@
+% Alexadros Dimas
+% University of Patras
+% Department of Mechanical Engineering and Aeronautics
+% Robotics Group
+% Spring 2020
+%{
+
+Convention 1: MBA refers to pose of frame {B} as seen by {A}. Similar
+notation is used to describe relative position and orientation of two
+frames.
+
+%}
+% This script can be used to derive the complex equations that describe the
+% inverse kinematics problem for the manipulator
 clc
 
 syms q1 real;

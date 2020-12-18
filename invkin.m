@@ -1,3 +1,18 @@
+% Alexandros Dimas
+% University of Patras
+% Department of Mechanical Engineering and Aeronautics
+% Robotics Group
+% Spring 2020
+%{
+
+Convention 1: MBA refers to pose of frame {B} as seen by {A}. Similar
+notation is used to describe relative position and orientation of two
+frames.
+
+%}
+% See John J. Craig. 2004. Introduction to Robotics: Mechanics and Control
+% (3rd. ed.). Addison-Wesley Longman Pvelocityblishing Co., Inc., USA,
+% p. 117-121
 function [theta1,theta2,theta3,theta4,theta5,theta6] = invkin(Px,Py,Pz,fz,fy,fx)
         [a,l,d] = get_dh();
         nogo = 0;

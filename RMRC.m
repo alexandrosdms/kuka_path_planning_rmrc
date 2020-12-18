@@ -1,4 +1,3 @@
-
 % Alexandros Dimas
 % University of Patras
 % Department of Mechanical Engineering and Aeronautics
@@ -48,7 +47,7 @@ MT6(1:3,4) = [-125 0 (250+153)]';
 % respectively
 % See John J. Craig. 2004. Introduction to Robotics: Mechanics and Control
 % (3rd. ed.). Addison-Wesley Longman Pvelocityblishing Co., Inc., USA,
-%p. 125-126
+% p. 125-126
 M60_A = MS0*MAS/MAT/MT6; % Pose of {6} relative to {0} when at {A}
 M60_B = MS0*MBS/MBT/MT6;
 
