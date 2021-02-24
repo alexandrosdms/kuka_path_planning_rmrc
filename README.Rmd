@@ -1,0 +1,54 @@
+---
+title: "Robotics RMRC PPA"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+This is a term project for an undergraduate Robotics course in the University of Patras. The objectives are to:
+
+- Solve the forward kinematics problem.
+
+- Give an analytic solution for the inverse kinematics problem.
+
+- Incorporate the Resolved Motion Rate Control (RMRC) algorithm in order to create a straight line path witch simulates a welding process
+
+We assume that a [KUKA KR 16 R1610-2](https://www.kuka.com/-/media/kuka-downloads/imported/6b77eecacfe542d3b736af377562ecaa/0000321015_en.pdf?rev=20f511ef7e0c47fe987dfa0f848ff85b&hash=AC1B029A917A8FEB6D95DEBFBC2E2873) is used to complete the task.
+
+<p align="center">
+  <img src="C:\Users\Alexandros\Downloads/Kuka-KR-16-R1610-2.png" />
+</p>
+
+## Inverse kinematics
+In the inverse kinematics problem we are concerned with finding the joint angles for a specific pose of the end effector. A modified version of the solution incorporated by [1] for the Puma 560 robot is used. We evaluate every solution of the set of eight possible solutions and the last one is accepted.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/PascPeli/Puma-Robot-Simulation/master/data/presentation/images/Figure8.png" />
+</p>
+
+## RMRC Algorithm
+Velocities in Joint Space are transformed to Cartesian space by:
+$$\bar V = J_v(\bar q) \dot {\bar q}$$
+Where $\bar V$ the velocity vector of the end effector, $\dot {\bar q}$ the joint space velocity vector and $J_v(\bar q)$ the Geometric Jacobian matrix. Given a nonsingular $J_v(\bar q)$ we obtain:
+
+$$\dot {\bar q}= {J_v}^{-1}(\bar q)\bar V$$
+The joint position vector is given by:
+
+$$\bar q = \bar q_0 + \int _0^t {\dot{\bar q}} dt$$
+
+<p align="center">
+  <img src="C:\Users\Alexandros\Downloads/RMRC_flow_chart_page-0001.jpg" />
+</p>
+
+where subscript "i" coresponds to initial position and "f" to final. dt Is the selected time step.
+
+## References
+
+- Introduction to Robotics: Mechanics and Control, 3rd Edition, John J. Craig, Pearson 2005
+
+- ΡΟΜΠΟΤΙΚΗ Μηχανική Έλεγχος και Σχεδιασμός Κίνησησης, Νίκος Ασπράγκαθος, Εκδόσεις Πανεπηστημίου Πατρών, 2020
+
+- https://github.com/PascPeli/Puma-Robot-Simulation
