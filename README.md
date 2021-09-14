@@ -37,9 +37,9 @@ For the straight line task a six degree of freedom industrial manipulator should
 
 ![alt text](https://www.quicktimeonline.com/assets/images/products/kr%2016%20r1610-2.jpg "KUKA KR16 R1610-2")
 
-![image info](.pictures/kuka_axis.png "KUKA KR16 R1610-2 axis")
+![ScreenShot](/pictures/kuka_axis.png "KUKA KR16 R1610-2 axis")
 
-![image info](.pictures/kuka_workspace.png "KUKA KR16 R1610-2 Workspace")
+![ScreenShot](/pictures/kuka_workspace.png "KUKA KR16 R1610-2 Workspace")
   
 ## 1.3. RMRC Algorithm
 ## 1.4. Issues
