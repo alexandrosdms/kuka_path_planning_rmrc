@@ -28,7 +28,7 @@ A represantation of the process as well as the necessary coordinate frames to be
 Also bellow a simplified represantation of the welding tool as well as the right-hand cordinate frames attached to the TCP {6} and the tool end point {7} are shown. From this image the relative pose of {7} as seen by {6} can be extracted.
 
 <center>
-<img src="/pictures/tool_wrist.png " alt="tooltowrist" width="500"/>
+<img src="/pictures/tool_to_wrist.png " alt="tooltowrist" width="500"/>
 </center>
 
 ### 2.2. Placements of objects
