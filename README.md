@@ -98,5 +98,5 @@ The dimensions required for the extraction of the DH parameters is seen bellow:
 1. John J. Craig. 1989. Introduction to Robotics: Mechanics and Control (2nd. ed.). Addison-Wesley Longman Publishing Co., Inc., USA.
 2. Ν. Ασπράγκαθος, 2018. ΡΟΜΠΟΤΙΚΗ (Μηχανική, Έλεγχος   και Σχεδιασμός Κίνησης) 
 3. Bruno Siciliano, Lorenzo Sciavicco, Luigi Villani, Giuseppe Oriolo, Robotics (Modelling, Planning and control) 
-4. KUKA KR 16 R1610-2 Flyer 
+4. [KUKA KR 16 R1610-2 Flyer](https://www.kuka.com/-/media/kuka-downloads/imported/6b77eecacfe542d3b736af377562ecaa/0000321015_en.pdf?rev=82d066901bc34a8eb6c2941af9da1623&hash=CA2AC4D28DD3CB1152A064C8CFDB254B) 
 5. [Inverse kinematics problem](https://github.com/PascPeli/Puma-Robot-Simulation) 
