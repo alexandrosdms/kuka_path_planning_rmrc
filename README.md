@@ -33,13 +33,26 @@ Achieve a 3-point (non-collinearly)  interpolation mothin in space using a 6-deg
 ### 1.2.6. Linead and quadratic interpolation
 
 ## The robot
-For the straight line task a six degree of freedom industrial manipulator should be chosen. Our team chose the KUKA KR16 R1610-2 manipulator for its flexibility and easy modification for welding porpuses.
+For the straight line task a six degree of freedom industrial manipulator should be chosen. Our team chose the KUKA KR16 R1610-2 manipulator for its flexibility and easy modification for welding porpuses. A stock image of the manipulator is presented below.
 
 ![alt text](https://www.quicktimeonline.com/assets/images/products/kr%2016%20r1610-2.jpg "KUKA KR16 R1610-2")
 
+The following image presents the six asix of the robot arm.
+
 ![ScreenShot](/pictures/kuka_axis.png "KUKA KR16 R1610-2 axis")
 
+The dimensions required for the extraction of the DH parameters is seen bellow:
+
 ![ScreenShot](/pictures/kuka_workspace.png "KUKA KR16 R1610-2 Workspace")
+
+|α_{i-1}|l{i-1}|d_i|θ_i|
+| ----- |:----:|:-:| -:|
+|0      |0     |0  |θ_1|
+|-90    |160   |0  |θ_2|
+|0      |780   |0  |θ_3|
+|-90    |150   |655|θ_4|
+|90     |0     |0  |θ_5|
+|-90    |0     |0  |θ_6|
   
 ## 1.3. RMRC Algorithm
 ## 1.4. Issues
