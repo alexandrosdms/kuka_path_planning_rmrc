@@ -20,6 +20,7 @@ In this task it is required for the robot's end effector to move in a straight l
     * The robot must cover the distance in 5cm/sec velocity.
 
 A represantation of the process as well as the necessary coordinate frames to be attached to the environment are shown bellow.
+
 <center>
 <img src="/pictures/welding_process.png " alt="weldingprocess" width="500"/>
 </center>
@@ -27,7 +28,7 @@ A represantation of the process as well as the necessary coordinate frames to be
 Also bellow a simplified represantation of the welding tool as well as the right-hand cordinate frames attached to the TCP {6} and the tool end point {7} are shown. From this image the relative pose of {7} as seen by {6} can be extracted.
 
 <center>
-<img src="/pictures/kuka_workspace.png " alt="tooltowrist" width="500"/>
+<img src="/pictures/tool_wrist.png " alt="tooltowrist" width="500"/>
 </center>
 
 ### 2.2. Placements of objects
