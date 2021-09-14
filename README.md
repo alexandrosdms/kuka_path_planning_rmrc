@@ -18,6 +18,18 @@ In each process the required coordinate frames (robot base, targets, objects of 
 In this task it is required for the robot's end effector to move in a straight line in order to achive a welding process. The constraints of this process are:
     * The distance the tool must travel from point A to point B is 40cm.
     * The robot must cover the distance in 5cm/sec velocity.
+
+A represantation of the process as well as the necessary coordinate frames to be attached to the environment are shown bellow.
+<center>
+<img src="/pictures/welding_process.png " alt="weldingprocess" width="500"/>
+</center>
+
+Also bellow a simplified represantation of the welding tool as well as the right-hand cordinate frames attached to the TCP {6} and the tool end point {7} are shown. From this image the relative pose of {7} as seen by {6} can be extracted.
+
+<center>
+<img src="/pictures/kuka_workspace.png " alt="tooltowrist" width="500"/>
+</center>
+
 ### 2.2. Placements of objects
 The robot is requred to pick 4 bottles from a container and place them one next to the other on a shelf. A point to point algorithm must be inccoporated to achive this task. The student is free to chose as many intermediate points as necessary.
 ### 2.3. Cutting process in a circular path
@@ -49,6 +61,10 @@ The dimensions required for the extraction of the DH parameters is seen bellow:
 
 <center>
 <img src="/pictures/kuka_workspace.png " alt="kukaworkspace" width="500"/>
+</center>
+
+<center>
+<img src="/pictures/axis_attached.png " alt="axisattached" width="500"/>
 </center>
 
 <center>
