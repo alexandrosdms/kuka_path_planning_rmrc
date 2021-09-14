@@ -2,7 +2,7 @@
 
 ## 1.1. Introduction
 This a project assigned as part of a an undergraduate course in robotics in the University of Patras.
-## 1.2. Backgroung
+## 1.2. Background
 The aim of the project is for students to get familiar with the kinematics of robot manipulators and path planning algorithms. Each team chose an industrial robot arm in order to achive one of the following tasks:
 
 1. Welding in a straight line
@@ -35,18 +35,23 @@ Achieve a 3-point (non-collinearly)  interpolation mothin in space using a 6-deg
 ## The robot
 For the straight line task a six degree of freedom industrial manipulator should be chosen. Our team chose the KUKA KR16 R1610-2 manipulator for its flexibility and easy modification for welding porpuses. A stock image of the manipulator is presented below.
 
-![alt text](https://www.quicktimeonline.com/assets/images/products/kr%2016%20r1610-2.jpg "KUKA KR16 R1610-2")
-<img src="https://www.quicktimeonline.com/assets/images/products/kr%2016%20r1610-2.jpg" alt="drawing" width="500"/>
+<center>
+<img src="https://www.quicktimeonline.com/assets/images/products/kr%2016%20r1610-2.jpg" alt="kukakrr1610-2" width="300"/>
+</center>
 
 The following image presents the six asix of the robot arm.
 
-![ScreenShot](/pictures/kuka_axis.png "KUKA KR16 R1610-2 axis")
-<img src="/pictures/kuka_axis.png" alt="drawing" width="200"/>
+<center>
+<img src="/pictures/kuka_axis.png" alt="kukaaxis" width="500"/>
+</center>
 
 The dimensions required for the extraction of the DH parameters is seen bellow:
 
-![ScreenShot](/pictures/kuka_workspace.png "KUKA KR16 R1610-2 Workspace")
-<img src="/pictures/kuka_workspace.png " alt="drawing" width="200"/>
+<center>
+<img src="/pictures/kuka_workspace.png " alt="kukaworkspace" width="500"/>
+</center>
+
+<center>
 
 |α<sub>i-1</sub>|l<sub>i-1</sub> |d<sub>i</sub>|θ<sub>i</sub>|
 | ------------- |:--------------:|:-------:| ---------------:|
@@ -56,7 +61,25 @@ The dimensions required for the extraction of the DH parameters is seen bellow:
 |-90            |150             |655      |θ_4              |
 |90             |0               |0        |θ_5              |
 |-90            |0               |0        |θ_6              |
+
+</center>
   
 ## 1.3. RMRC Algorithm
+
+<center>
+<img src="/pictures/RMRC_flow_chart.jpg " alt="kukaworkspace" width="500"/>
+</center>
+
+
 ## 1.4. Issues
+
 ## 1.5. Future updates
+* Add scripts for every process
+* Simulate processes using ROS and Gazebo/Moveit
+
+## References
+1. John J. Craig. 1989. Introduction to Robotics: Mechanics and Control (2nd. ed.). Addison-Wesley Longman Publishing Co., Inc., USA.
+2. Ν. Ασπράγκαθος, 2018. ΡΟΜΠΟΤΙΚΗ (Μηχανική, Έλεγχος   και Σχεδιασμός Κίνησης) 
+3. Bruno Siciliano, Lorenzo Sciavicco, Luigi Villani, Giuseppe Oriolo, Robotics (Modelling, Planning and control) 
+4. KUKA KR 16 R1610-2 Flyer 
+5. [Inverse kinematics problem](https://github.com/PascPeli/Puma-Robot-Simulation) 
