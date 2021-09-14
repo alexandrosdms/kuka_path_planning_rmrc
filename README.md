@@ -67,7 +67,7 @@ The dimensions required for the extraction of the DH parameters is seen bellow:
 ## 4. RMRC Algorithm
 
 <center>
-<img src="/pictures/RMRC_flow_chart.jpg " alt="kukaworkspace" width="900"/>
+<img src="/pictures/RMRC_flow_chart.jpg " alt="kukaworkspace" width="800"/>
 </center>
 
 
