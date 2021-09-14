@@ -45,14 +45,14 @@ The dimensions required for the extraction of the DH parameters is seen bellow:
 
 ![ScreenShot](/pictures/kuka_workspace.png "KUKA KR16 R1610-2 Workspace")
 
-|α_{i-1}|l{i-1}|d_i|θ_i|
-| ----- |:----:|:-:| -:|
-|0      |0     |0  |θ_1|
-|-90    |160   |0  |θ_2|
-|0      |780   |0  |θ_3|
-|-90    |150   |655|θ_4|
-|90     |0     |0  |θ_5|
-|-90    |0     |0  |θ_6|
+|α<sup>i-1</sup>|l<sup>i-1</sup>}|d<sup>i</sup>|θ<sup>i</sup>|
+| ------------- |:--------------:|:-------:| ---------------:|
+|0              |0               |0        |θ_1              |
+|-90            |160             |0        |θ_2              |
+|0              |780             |0        |θ_3              |
+|-90            |150             |655      |θ_4              |
+|90             |0               |0        |θ_5              |
+|-90            |0               |0        |θ_6              |
   
 ## 1.3. RMRC Algorithm
 ## 1.4. Issues
