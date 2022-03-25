@@ -2,6 +2,11 @@
 
 ## 1. Introduction
 This a project assigned as part of a an undergraduate course in robotics in the University of Patras.
+
+This repository contains a MATLAB-based implementation of the RMRC Path Planning Algorithm. The material is self contained as all needed functions to achieve the planner are provided (Forward and Inverse kinematics solver, etc.)
+
+## How to run this script
+Simply run `RMRC.m`
 ## 2. Background
 The aim of the project is for students to get familiar with the kinematics of robot manipulators and path planning algorithms. Each team chose an industrial robot arm in order to achive one of the following tasks:
 
