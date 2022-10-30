@@ -1,7 +1,7 @@
 # KUKA KR16 R1610-2 RMRC Path Planning Algorithm
 
 ## 1. Introduction
-This a project assigned as part of a an undergraduate course in robotics in the University of Patras.
+This is a project assigned as part of a an undergraduate course in robotics in the University of Patras.
 
 This repository contains a MATLAB-based implementation of the RMRC Path Planning Algorithm. The material is self contained as all needed functions to achieve the planner are provided (Forward and Inverse kinematics solver, etc.)
 
